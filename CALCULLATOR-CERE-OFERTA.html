@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator de Credit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        #credit-calculator-wrapper {
+            --primary-color: #FFCB2E;
+            --primary-color-dark: #FFCB2E;
+            --text-dark: #2c3e50;
+            --text-light: #8a8a8a;
+            --border-color: #dfe4ea;
+            --background-white: #ffffff;
+            --shadow-color: rgba(92, 122, 255, 0.2);
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-white);
+            border-radius: 24px;
+            box-shadow: 0 0 30px var(--shadow-color);
+            max-width: 100%;
+            padding: clamp(15px, 5vw, 30px);
+        }
+
+        #credit-calculator-wrapper,
+        #credit-calculator-wrapper * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #credit-calculator-wrapper .form-group {
+            margin-bottom: clamp(10px, 3vh, 20px);
+        }
+
+        #credit-calculator-wrapper label {
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        #credit-calculator-wrapper .display-input {
+            width: 100%;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: clamp(1rem, 3vw, 1.15rem);
+            padding: clamp(6px, 2vh, 8px) 10px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        #credit-calculator-wrapper input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 7px;
+            background: #e9ecef;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        #credit-calculator-wrapper input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 4px solid var(--background-white);
+            box-shadow: 0 3px 8px var(--shadow-color);
+            margin-top: -8px;
+        }
+
+        #credit-calculator-wrapper input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 4px solid var(--background-white);
+            box-shadow: 0 3px 8px var(--shadow-color);
+        }
+
+        #credit-calculator-wrapper .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+            color: var(--text-light);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        #credit-calculator-wrapper .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: clamp(10px, 3vh, 20px);
+        }
+
+        #credit-calculator-wrapper .form-group-inline {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #credit-calculator-wrapper input[type="text"],
+        #credit-calculator-wrapper input[type="tel"],
+        #credit-calculator-wrapper input[type="email"],
+        #credit-calculator-wrapper select {
+            width: 100%;
+            padding: clamp(8px, 2vh, 10px) 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #fff;
+        }
+
+        #credit-calculator-wrapper input:focus,
+        #credit-calculator-wrapper select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(92, 122, 255, 0.25);
+        }
+
+        #credit-calculator-wrapper select {
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        #credit-calculator-wrapper select:required:invalid {
+            color: var(--text-light);
+        }
+
+        #credit-calculator-wrapper .phone-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #credit-calculator-wrapper .phone-prefix {
+            position: absolute;
+            left: 12px;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+            pointer-events: none;
+        }
+
+        #credit-calculator-wrapper #telefon {
+            padding-left: 50px;
+        }
+
+        #credit-calculator-wrapper .cta-button {
+            width: 100%;
+            padding: clamp(10px, 2.5vh, 12px);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 700;
+            color: var(--background-white);
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-color-dark));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #credit-calculator-wrapper .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(92, 122, 255, 0.25);
+        }
+
+        #credit-calculator-wrapper .cta-button:disabled {
+            cursor: not-allowed;
+            background: #ccc;
+        }
+
+        #credit-calculator-wrapper .message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        #credit-calculator-wrapper .message.success {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        #credit-calculator-wrapper .message.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 380px) {
+            #credit-calculator-wrapper .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            #credit-calculator-wrapper .form-group-inline {
+                margin-bottom: clamp(10px, 3vh, 20px);
+            }
+
+            #credit-calculator-wrapper .form-group-inline:last-child {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="credit-calculator-wrapper">
+        <form id="loan-form" novalidate>
+            <div class="form-group">
+                <label for="amount-text">Am nevoie de</label>
+                <input type="text" id="amount-text" class="display-input" readonly>
+                <input type="range" id="amount-slider" min="1000" max="800000" step="1000" value="50000">
+                <div class="range-labels">
+                    <span>1.000 lei</span>
+                    <span>800.000 lei</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="duration-text">Pe o perioadă de</label>
+                <input type="text" id="duration-text" class="display-input" readonly>
+                <input type="range" id="duration-slider" min="6" max="60" step="1" value="36">
+                <div class="range-labels">
+                    <span>6 luni</span>
+                    <span>5 ani</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="income-text">Venitul tău net lunar</label>
+                <input type="text" id="income-text" class="display-input" readonly>
+                <input type="range" id="income-slider" min="2000" max="15000" step="100" value="4500">
+                <div class="range-labels">
+                    <span>2.000 lei</span>
+                    <span>15.000 lei</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <input type="text" id="nume" placeholder="Nume" required>
+                </div>
+                <div class="form-group-inline">
+                    <input type="text" id="prenume" placeholder="Prenume" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <div class="phone-input-wrapper">
+                        <span class="phone-prefix">+40</span>
+                        <input type="tel" id="telefon" placeholder="700 111 222" required pattern="[0-9]{9}" maxlength="9" title="Introduceți 9 cifre, fără spații sau alte caractere.">
+                    </div>
+                </div>
+                <div class="form-group-inline">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <select id="judet" required>
+                    <option value="" disabled selected>Alege județul</option>
+                    <option value="Alba">Alba</option><option value="Arad">Arad</option><option value="Arges">Argeș</option><option value="Bacau">Bacău</option><option value="Bihor">Bihor</option><option value="Bistrita-Nasaud">Bistrița-Năsăud</option><option value="Botosani">Botoșani</option><option value="Brasov">Brașov</option><option value="Braila">Brăila</option><option value="Bucuresti">București</option><option value="Buzau">Buzău</option><option value="Caras-Severin">Caraș-Severin</option><option value="Calarasi">Călărași</option><option value="Cluj">Cluj</option><option value="Constanta">Constanța</option><option value="Covasna">Covasna</option><option value="Dambovita">Dâmbovița</option><option value="Dolj">Dolj</option><option value="Galati">Galați</option><option value="Giurgiu">Giurgiu</option><option value="Gorj">Gorj</option><option value="Harghita">Harghita</option><option value="Hunedoara">Hunedoara</option><option value="Ialomita">Ialomița</option><option value="Iasi">Iași</option><option value="Ilfov">Ilfov</option><option value="Maramures">Maramureș</option><option value="Mehedinti">Mehedinți</option><option value="Mures">Mureș</option><option value="Neamt">Neamț</option><option value="Olt">Olt</option><option value="Prahova">Prahova</option><option value="Satu Mare">Satu Mare</option><option value="Salaj">Sălaj</option><option value="Sibiu">Sibiu</option><option value="Suceava">Suceava</option><option value="Teleorman">Teleorman</option><option value="Timis">Timiș</option><option value="Tulcea">Tulcea</option><option value="Vaslui">Vaslui</option><option value="Valcea">Vâlcea</option><option value="Vrancea">Vrancea</option>
+                </select>
+            </div>
+            <button type="submit" class="cta-button" id="submit-button">Vreau Oferta</button>
+            <div id="form-message" class="message"></div>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            function initCalculator() {
+                const calculatorWrapper = document.getElementById('credit-calculator-wrapper');
+                if (!calculatorWrapper) {
+                    return;
+                }
+
+                // !!! IMPORTANT: Pune aici noul URL de la New Deployment !!!
+                const WEB_APP_URL = 'WEBHOOK GOOGLE SHEETS';
+                const form = calculatorWrapper.querySelector('#loan-form');
+                const submitButton = calculatorWrapper.querySelector('#submit-button');
+                const formMessage = calculatorWrapper.querySelector('#form-message');
+                const amountSlider = calculatorWrapper.querySelector('#amount-slider');
+                const amountText = calculatorWrapper.querySelector('#amount-text');
+                const durationSlider = calculatorWrapper.querySelector('#duration-slider');
+                const durationText = calculatorWrapper.querySelector('#duration-text');
+                const incomeSlider = calculatorWrapper.querySelector('#income-slider');
+                const incomeText = calculatorWrapper.querySelector('#income-text');
+                const telefonInput = calculatorWrapper.querySelector('#telefon');
+                const emailInput = calculatorWrapper.querySelector('#email');
+
+                if (!form || !submitButton || !telefonInput || !emailInput) {
+                    console.error("Calculator Error: One or more form elements are missing.");
+                    return;
+                }
+
+                const handleFormSubmit = () => {
+                    const requiredFields = ['nume', 'prenume', 'telefon', 'email', 'judet'];
+                    let firstInvalidField = null;
+                    for (const fieldId of requiredFields) {
+                        const field = calculatorWrapper.querySelector(`#${fieldId}`);
+                        if (!field.value.trim()) {
+                            firstInvalidField = field;
+                            break;
+                        }
+                    }
+                    if (firstInvalidField) {
+                        formMessage.textContent = 'Vă rugăm să completați toate câmpurile.';
+                        formMessage.className = 'message error';
+                        formMessage.style.display = 'block';
+                        firstInvalidField.focus();
+                        return;
+                    }
+                    if (!/^\d{9}$/.test(telefonInput.value.trim())) {
+                        formMessage.textContent = 'Vă rugăm să introduceți un număr de telefon valid (9 cifre).';
+                        formMessage.className = 'message error';
+                        formMessage.style.display = 'block';
+                        telefonInput.focus();
+                        return;
+                    }
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
+                        formMessage.textContent = 'Vă rugăm să introduceți o adresă de email validă.';
+                        formMessage.className = 'message error';
+                        formMessage.style.display = 'block';
+                        emailInput.focus();
+                        return;
+                    }
+
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Se trimite...';
+                    formMessage.style.display = 'none';
+
+                    const formData = {
+                        'Coloana 1': calculatorWrapper.querySelector('#nume').value.trim(),
+                        'Coloana 2': calculatorWrapper.querySelector('#prenume').value.trim(),
+                        'Coloana 3': '+40' + telefonInput.value.trim(),
+                        'Coloana 4': emailInput.value.trim(),
+                        'Coloana 5': calculatorWrapper.querySelector('#judet').value,
+                        'Coloana 6': incomeText.value,
+                        'Coloana 7': durationText.value,
+                        'Coloana 8': amountText.value
+                    };
+
+                    fetch(WEB_APP_URL, {
+                            method: 'POST',
+                            mode: 'cors',
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'text/plain;charset=utf-8'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                formMessage.textContent = 'Informațiile tale au fost procesate, te vom contacta în cel mai scurt timp posibil';
+                                formMessage.className = 'message success';
+                                formMessage.style.display = 'block';
+                                submitButton.textContent = 'Trimis!';
+                                form.reset();
+                                initValues();
+                            } else {
+                                throw new Error('Răspunsul serverului nu a fost OK.');
+                            }
+                        })
+                        .catch(error => {
+                            formMessage.textContent = 'Eroare de comunicare. Vă rugăm reîncercați.';
+                            formMessage.className = 'message error';
+                            formMessage.style.display = 'block';
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'Reîncercați';
+                            console.error('A apărut o eroare la trimitere:', error);
+                        });
+                };
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    handleFormSubmit();
+                });
+
+                function formatNumber(num) {
+                    return new Intl.NumberFormat('ro-RO').format(num);
+                }
+
+                function updateAmount() {
+                    amountText.value = formatNumber(amountSlider.value) + ' lei';
+                }
+
+                function updateDuration() {
+                    const months = parseInt(durationSlider.value);
+                    if (months < 12) {
+                        durationText.value = `${months} luni`;
+                    } else if (months % 12 === 0) {
+                        const y = months / 12;
+                        durationText.value = `${y === 1 ? '1 an' : y + ' ani'} (${months} luni)`;
+                    } else {
+                        const y = Math.floor(months / 12),
+                            m = months % 12;
+                        durationText.value = `${y === 1 ? '1 an' : y + ' ani'} și ${m === 1 ? '1 lună' : m + ' luni'} (${months} luni)`;
+                    }
+                }
+
+                function updateIncome() {
+                    incomeText.value = formatNumber(incomeSlider.value) + ' lei';
+                }
+
+                amountSlider.addEventListener('input', updateAmount);
+                durationSlider.addEventListener('input', updateDuration);
+                incomeSlider.addEventListener('input', updateIncome);
+
+                function initValues() {
+                    try {
+                        updateAmount();
+                        updateDuration();
+                        updateIncome();
+                    } catch (e) {
+                        console.error("Eroare la inițializarea valorilor.", e);
+                    }
+                }
+                initValues();
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCalculator);
+            } else {
+                initCalculator();
+            }
+        })();
+    </script>
+</body>
+</html>
