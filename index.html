@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Rate Credit</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Stiluri identice cu primul calculator pentru un design consistent */
+        #credit-calculator-wrapper {
+            --primary-color: #5c7aff;
+            --primary-color-dark: #4a67d5;
+            --text-dark: #2c3e50;
+            --text-light: #8a8a8a;
+            --border-color: #dfe4ea;
+            --background-white: #ffffff;
+            --shadow-color: rgba(92, 122, 255, 0.2);
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-white);
+            border-radius: 24px;
+            box-shadow: 0 0 30px var(--shadow-color);
+            max-width: 100%;
+            padding: clamp(15px, 5vw, 30px);
+            box-sizing: border-box;
+        }
+
+        #credit-calculator-wrapper,
+        #credit-calculator-wrapper * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #credit-calculator-wrapper .form-group {
+            margin-bottom: clamp(10px, 3vh, 20px);
+        }
+
+        #credit-calculator-wrapper label {
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        #credit-calculator-wrapper .label-value-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #credit-calculator-wrapper .value-display {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+        }
+
+        #credit-calculator-wrapper input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 7px;
+            background: #e9ecef;
+            border-radius: 5px;
+            outline: none;
+            margin-top: 5px; /* Spațiu adăugat */
+        }
+
+        #credit-calculator-wrapper input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 4px solid var(--background-white);
+            box-shadow: 0 3px 8px var(--shadow-color);
+            margin-top: -8px;
+        }
+
+        #credit-calculator-wrapper .rate-display {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #credit-calculator-wrapper .rate-display .rate-label {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        #credit-calculator-wrapper .rate-display .rate-value {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 5px;
+        }
+        
+        #credit-calculator-wrapper .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: clamp(10px, 3vh, 15px);
+        }
+
+        #credit-calculator-wrapper .form-group-inline {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #credit-calculator-wrapper input[type="text"],
+        #credit-calculator-wrapper input[type="tel"],
+        #credit-calculator-wrapper input[type="email"],
+        #credit-calculator-wrapper input[type="date"],
+        #credit-calculator-wrapper select {
+            width: 100%;
+            padding: clamp(8px, 2vh, 10px) 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #fff;
+        }
+
+        #credit-calculator-wrapper .radio-group {
+             margin-top: 10px;
+             display: flex;
+             gap: 20px;
+        }
+        #credit-calculator-wrapper .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        #credit-calculator-wrapper .cta-button {
+            width: 100%;
+            padding: clamp(12px, 2.5vh, 14px); /* Buton mai mare */
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            font-weight: 700;
+            color: var(--background-white);
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-color-dark));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px; /* Spațiu adăugat */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #credit-calculator-wrapper .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(92, 122, 255, 0.25);
+        }
+
+        #credit-calculator-wrapper .cta-button:disabled {
+            cursor: not-allowed;
+            background: #ccc;
+        }
+
+        #credit-calculator-wrapper .message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        #credit-calculator-wrapper .message.success {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        #credit-calculator-wrapper .message.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        #credit-calculator-wrapper hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+        
+        #credit-calculator-wrapper .dobanda-info {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 380px) {
+            #credit-calculator-wrapper .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            #credit-calculator-wrapper .form-group-inline {
+                margin-bottom: clamp(10px, 3vh, 15px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="credit-calculator-wrapper">
+        <form id="loan-form" novalidate>
+            <!-- Secțiunea de Calcul -->
+            <div class="form-group">
+                <div class="label-value-display">
+                    <label for="suma">Suma împrumutată</label>
+                    <span id="suma-val" class="value-display">50.000 lei</span>
+                </div>
+                <input type="range" id="suma" min="1000" max="800000" step="1000" value="50000">
+            </div>
+
+            <div class="form-group">
+                 <div class="label-value-display">
+                    <label for="perioada">Perioada</label>
+                    <span id="perioada-val" class="value-display">36 luni</span>
+                </div>
+                <input type="range" id="perioada" min="12" max="60" step="1" value="36">
+            </div>
+            
+            <div class="dobanda-info">Dobândă anuală fixă: <strong>11.25%</strong> (exemplu CEC Bank)</div>
+
+            <div class="rate-display">
+                <div class="rate-label">Rată lunară estimată</div>
+                <div id="rata" class="rate-value">0 lei</div>
+            </div>
+
+            <hr>
+
+            <!-- Secțiunea de Aplicare (identică cu primul calculator) -->
+            <div class="form-row">
+                <div class="form-group-inline"><input type="text" id="nume" placeholder="Nume și Prenume" required></div>
+                <div class="form-group-inline"><input type="text" id="telefon" placeholder="Telefon (ex: 0722123456)" required pattern="[0-9]{10}" maxlength="10"></div>
+            </div>
+            
+            <div class="form-group"><input type="email" id="email" placeholder="Adresă de Email" required></div>
+
+            <div class="form-row">
+                <div class="form-group-inline">
+                    <label for="salariu">Salariu net lunar (lei)</label>
+                    <input type="text" id="salariu" required inputmode="numeric" pattern="[0-9]*">
+                </div>
+                <div class="form-group-inline">
+                    <label for="dataAngajare">Data ultimei angajări</label>
+                    <input type="date" id="dataAngajare" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Sunteți raportat în Biroul de Credit?</label>
+                <div class="radio-group">
+                    <label for="rauPlatnicDa"><input type="radio" name="rauPlatnic" value="Da" id="rauPlatnicDa" required> Da</label>
+                    <label for="rauPlatnicNu"><input type="radio" name="rauPlatnic" value="Nu" id="rauPlatnicNu" required> Nu</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="cta-button" id="submit-button">Aplică Acum</button>
+            <div id="form-message" class="message"></div>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            const calculatorWrapper = document.getElementById('credit-calculator-wrapper');
+            if (!calculatorWrapper) { return; }
+
+            // --- Elemente pentru calcul ---
+            const sumaSlider = calculatorWrapper.querySelector('#suma');
+            const perioadaSlider = calculatorWrapper.querySelector('#perioada');
+            const sumaVal = calculatorWrapper.querySelector('#suma-val');
+            const perioadaVal = calculatorWrapper.querySelector('#perioada-val');
+            const rataVal = calculatorWrapper.querySelector('#rata');
+
+            // --- Elemente pentru formular ---
+            const form = calculatorWrapper.querySelector('#loan-form');
+            const submitButton = calculatorWrapper.querySelector('#submit-button');
+            const formMessage = calculatorWrapper.querySelector('#form-message');
+
+            // --- Datele pentru trimitere ---
+            const numeInput = calculatorWrapper.querySelector('#nume');
+            const telefonInput = calculatorWrapper.querySelector('#telefon');
+            const emailInput = calculatorWrapper.querySelector('#email');
+            const salariuInput = calculatorWrapper.querySelector('#salariu');
+            const dataAngajareInput = calculatorWrapper.querySelector('#dataAngajare');
+            
+            // --- URL-ul pentru noul Webhook (trebuie înlocuit) ---
+            const WEB_APP_URL = 'LINK POSTARE CONTINUT';
+
+            function formatNumber(num) {
+                return new Intl.NumberFormat('ro-RO').format(num);
+            }
+
+            function calculeazaRata() {
+                const suma = parseFloat(sumaSlider.value);
+                const perioada = parseInt(perioadaSlider.value);
+                const dobandaAnuala = 11.25 / 100;
+
+                sumaVal.textContent = formatNumber(suma) + ' lei';
+                perioadaVal.textContent = perioada + ' luni';
+
+                if (suma > 0 && perioada > 0) {
+                    const r = dobandaAnuala / 12;
+                    const rata = (suma * r) / (1 - Math.pow(1 + r, -perioada));
+                    rataVal.textContent = formatNumber(rata.toFixed(2)) + ' lei';
+                }
+            }
+
+            // --- Evenimente pentru calcul ---
+            sumaSlider.addEventListener('input', calculeazaRata);
+            perioadaSlider.addEventListener('input', calculeazaRata);
+
+            // --- Logica de trimitere a formularului ---
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Validări
+                const requiredFields = [numeInput, telefonInput, emailInput, salariuInput, dataAngajareInput];
+                let firstInvalidField = null;
+
+                for(const field of requiredFields) {
+                    if (!field.value.trim()) {
+                        firstInvalidField = field;
+                        break;
+                    }
+                }
+                
+                if (!firstInvalidField) {
+                    if (!document.querySelector('input[name="rauPlatnic"]:checked')) {
+                         firstInvalidField = document.querySelector('.radio-group');
+                    }
+                }
+                
+                if (firstInvalidField) {
+                    formMessage.textContent = 'Vă rugăm să completați toate câmpurile.';
+                    formMessage.className = 'message error';
+                    formMessage.style.display = 'block';
+                    if (firstInvalidField.focus) firstInvalidField.focus();
+                    return;
+                }
+
+                submitButton.disabled = true;
+                submitButton.textContent = 'Se trimite...';
+                formMessage.style.display = 'none';
+                
+                const rauPlatnic = document.querySelector('input[name="rauPlatnic"]:checked').value;
+
+                // Creare obiect cu date
+                const formData = {
+                    'Nume': numeInput.value.trim(),
+                    'Telefon': telefonInput.value.trim(),
+                    'Email': emailInput.value.trim(),
+                    'SalariuNet': salariuInput.value.trim(),
+                    'DataAngajare': dataAngajareInput.value,
+                    'EsteRauPlatnic': rauPlatnic,
+                    'SumaSolicitata': sumaSlider.value,
+                    'PerioadaSolicitata': perioadaSlider.value,
+                    'RataEstimata': rataVal.textContent
+                };
+
+                // Trimitere date (folosind logica simplificată)
+                fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        formMessage.textContent = 'Informațiile tale au fost procesate, te vom contacta în cel mai scurt timp posibil';
+                        formMessage.className = 'message success';
+                        form.reset();
+                        calculeazaRata(); // Resetează și afișajele
+                    } else {
+                        throw new Error('Răspunsul serverului nu a fost OK.');
+                    }
+                })
+                .catch(error => {
+                    formMessage.textContent = 'Eroare de comunicare. Vă rugăm reîncercați.';
+                    formMessage.className = 'message error';
+                    console.error('A apărut o eroare la trimitere:', error);
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Aplică Acum';
+                    formMessage.style.display = 'block';
+                });
+            });
+
+            // Inițializează calculul la încărcarea paginii
+            calculeazaRata();
+        })();
+    </script>
+</body>
+</html>
